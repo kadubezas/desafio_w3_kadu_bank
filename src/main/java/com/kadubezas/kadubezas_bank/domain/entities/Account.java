@@ -1,5 +1,8 @@
 package com.kadubezas.kadubezas_bank.domain.entities;
 
+import com.kadubezas.kadubezas_bank.infrastructure.service.exceptions.BalanceNotEnoughException;
+import com.kadubezas.kadubezas_bank.infrastructure.service.exceptions.ResourceNotFoundException;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -67,5 +70,9 @@ public class Account implements Serializable {
 
     public void deposit(Double amount) {
         this.balance += amount;
+    }
+
+    public void withdraw(Double amount) {
+            this.balance -= amount;
     }
 }

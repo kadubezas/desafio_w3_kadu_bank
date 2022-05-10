@@ -1,5 +1,6 @@
 package com.kadubezas.kadubezas_bank.application.resource.exceptions;
 
+import com.kadubezas.kadubezas_bank.infrastructure.service.exceptions.BalanceNotEnoughException;
 import com.kadubezas.kadubezas_bank.infrastructure.service.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,14 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> resourceNotFoundException(ResourceNotFoundException e, HttpServletRequest request) {
         String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(BalanceNotEnoughException.class)
+    public ResponseEntity<StandardError> balanceNotEnoughException (BalanceNotEnoughException e, HttpServletRequest request) {
+        String error = "Balance not enough";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }

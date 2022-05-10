@@ -3,6 +3,7 @@ package com.kadubezas.kadubezas_bank.application.resource;
 import com.kadubezas.kadubezas_bank.application.resource.dto.AccountDTO;
 import com.kadubezas.kadubezas_bank.application.resource.dto.TransactionLogDTO;
 import com.kadubezas.kadubezas_bank.application.resource.form.DepositForm;
+import com.kadubezas.kadubezas_bank.application.resource.form.WithdrawForm;
 import com.kadubezas.kadubezas_bank.domain.entities.Account;
 import com.kadubezas.kadubezas_bank.domain.entities.TransactionLog;
 import com.kadubezas.kadubezas_bank.infrastructure.service.AccountService;
@@ -31,6 +32,12 @@ public class AccountResource {
     @PostMapping("/deposit")
     public ResponseEntity<TransactionLogDTO> deposit(@RequestBody DepositForm form) {
         TransactionLog transactionLog = accountService.deposit(form);
+        return ResponseEntity.ok(TransactionLogDTO.converter(transactionLog));
+    }
+
+    @PostMapping("/withdraw")
+    public ResponseEntity<TransactionLogDTO> withdraw(@RequestBody WithdrawForm form) {
+        TransactionLog transactionLog = accountService.withdraw(form);
         return ResponseEntity.ok(TransactionLogDTO.converter(transactionLog));
     }
 }
